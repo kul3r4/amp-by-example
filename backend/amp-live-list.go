@@ -20,11 +20,15 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"path"
 )
 
 const (
 	AMP_LIVE_LIST_COOKIE_NAME = "ABE_AMP_LIVE_LIST_STATUS"
 	MAX_AGE_IN_SECONDS        = 1
+	DIST_FOLDER								= "dist"
+	SAMPLE_AMPS_FOLDER				= "sample_amps"
+	COMPONENTS_FOLDER					= "components"
 )
 
 type BlogItem struct {
@@ -33,8 +37,8 @@ type BlogItem struct {
 	Timestamp string
 }
 
-func (blogItem BlogItem) clone() BlogItem {
-	return createBlogEntry(blogItem.Text, blogItem.Image)
+func (blogItem BlogItem) cloneWith(id int, timestamp long) BlogItem {
+	return createBlogEntry(blogItem.Text, blogItem.Image, timestamp)
 }
 
 type Score struct {
@@ -53,28 +57,41 @@ var blogs []BlogItem
 func InitAmpLiveList() {
 	blogs = make([]BlogItem, 0)
 	blogs = append(blogs,
-		createBlogEntry("A green landscape", "/img/landscape_hills_300x200.jpg"),
+		createBlogEntry("Green landscape", "/img/landscape_hills_300x200.jpg"),
 		createBlogEntry("Mountains", "/img/landscape_mountains_300x200.jpg"),
 		createBlogEntry("Road leading to a lake", "/img/landscape_lake_300x200.jpg"),
 		createBlogEntry("Forested hills", "/img/landscape_trees_300x193.jpg"),
 		createBlogEntry("Scattered houses", "/img/landscape_village_300x169.jpg"),
-		createBlogEntry("A canyon", "/img/landscape_canyon_300x200.jpg"),
+		createBlogEntry("Canyon", "/img/landscape_canyon_300x200.jpg"),
 		createBlogEntry("Desert", "/img/landscape_desert_300x142.jpg"),
 		createBlogEntry("Houses on the street", "/img/landscape_houses_300x201.jpg"),
 		createBlogEntry("Blue sea", "/img/landscape_sea_300x200.jpg"),
-		createBlogEntry("A sailing ship", "/img/landscape_ship_300x200.jpg"))
-	http.HandleFunc("/components/amp-live-list/", RenderLiveBlog)
+		createBlogEntry("Sailing ship", "/img/landscape_ship_300x200.jpg"))
+
+	registerHandler(SAMPLE_AMPS_FOLDER, "live_blog")
+	registerHandler(SAMPLE_AMPS_FOLDER, "live_blog/preview")
+	registerHandler(COMPONENTS_FOLDER, "amp-live-list")
+
+}
+
+func registerHandler(sampleType string, sampleName string) {
+
+	url := path.Join("/", sampleType, sampleName)+ "/"
+  filePath := path.Join(DIST_FOLDER, sampleType, sampleName, "index.html")
+
+ 	http.HandleFunc(url, func(w http.ResponseWriter, r *http.Request) {
+    renderSample(w, r, filePath)
+  })
 }
 
 func createBlogEntry(text string, imagePath string) BlogItem {
 	return BlogItem{Text: text, Image: imagePath, Timestamp: currentTimestamp()}
 }
 
-func RenderLiveBlog(w http.ResponseWriter, r *http.Request) {
+func updateStatus(w http.ResponseWriter, r *http.Request) int {
 	newStatus := readStatus(r) + 1
-	page := createPage(newStatus)
 	writeStatus(w, newStatus)
-	renderAmpLiveListSample(w, page)
+	return newStatus
 }
 
 func readStatus(r *http.Request) int {
@@ -86,7 +103,7 @@ func readStatus(r *http.Request) int {
 	return result
 }
 
-func createPage(newStatus int) Page {
+func createPage(newStatus int, timestamp long) Page {
 	if newStatus > len(blogs) {
 		newStatus = len(blogs)
 	}
@@ -95,16 +112,17 @@ func createPage(newStatus int) Page {
 	return Page{BlogItems: blogItems, FootballScore: score}
 }
 
-func renderAmpLiveListSample(w http.ResponseWriter, page Page) {
-	t, _ := template.ParseFiles("dist/components/amp-live-list/index.html")
+func renderSample(w http.ResponseWriter, r *http.Request, filePath string) {
+	t, _ := template.ParseFiles(filePath)
 	w.Header().Set("Cache-Control", fmt.Sprintf("max-age=%d, public, must-revalidate", MAX_AGE_IN_SECONDS))
-	t.Execute(w, page)
+	newStatus := updateStatus(w, r)
+	t.Execute(w, createPage(newStatus))
 }
 
-func getBlogEntries(size int) []BlogItem {
+func getBlogEntries(size int, timestamp long) []BlogItem {
 	result := make([]BlogItem, 0)
 	for i := 0; i < size; i++ {
-		result = append(result, blogs[i].clone())
+		result = append(result, blogs[i].cloneWith(i + 1, timestamp + FIFTEEN_SECONDS * i))
 	}
 	return result
 }
