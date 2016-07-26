@@ -185,15 +185,15 @@ This sample showcases how to build a product page in AMP HTML.
             <a href="/shopping-cart-sample.html" class="button button-primary call-to-action seller-button">Buy</a>
         </div>
         <!-- Use [amp-list](/components/amp-list/) to ensure the pages shows the latest price if it is loaded via the Google AMP Cache. -->
-        <amp-list width=auto height=100 layout=fixed-height
+        <amp-list width=auto height=200 layout=fixed-height
           src="/json/product.json?RANDOM">
-        <template type="amp-mustache" id="amp-template-id">
-            <p id="product-description">
-                {{description}}
-            </p>
-            <h5 class="price-description">{{price}}</h5>
-        </template>
-      </amp-list>
+            <template type="amp-mustache" id="amp-template-id">
+                <p id="product-description">
+                    {{description}}
+                </p>
+                <h5 class="price-description">{{price}}</h5>
+            </template>
+        </amp-list>
         
 
         <!-- #### Image Gallery -->
