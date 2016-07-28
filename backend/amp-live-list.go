@@ -30,6 +30,9 @@ const (
 	SAMPLE_AMPS_FOLDER        = "samples_templates"
 	COMPONENTS_FOLDER         = "components"
 	MINUS_FIFTEEN_SECONDS     = -15
+	SHORT_DESCRIPTION         = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+	MEDIUM_DESCRIPTION        = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	LONG_DESCRIPTION          = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
 )
 
 type BlogItem struct {
@@ -62,16 +65,16 @@ var blogs []BlogItem
 func InitAmpLiveList() {
 	blogs = make([]BlogItem, 0)
 	blogs = append(blogs,
-		createBlogEntryWithTimeNow("Green landscape", "A green landscape with a house and trees.", "/img/landscape_hills_1280x853.jpg", 1),
-		createBlogEntryWithTimeNow("Mountains", "Mountains reflecting on a lake.", "/img/landscape_mountains_1280x853.jpg", 2),
-		createBlogEntryWithTimeNow("Road leading to a lake", "A road leading to a lake with mountains on the back.", "/img/landscape_lake_1280x853.jpg", 3),
-		createBlogEntryWithTimeNow("Forested hills", "Forested hills with a blue sky in the background.", "/img/landscape_trees_1280x823.jpg", 4),
-		createBlogEntryWithTimeNow("Scattered houses", "Scattered houses in a mountain village.", "/img/landscape_village_1280x720.jpg", 5),
-		createBlogEntryWithTimeNow("Canyon", "A deep canyon at sunset.", "/img/landscape_canyon_1280x853.jpg", 6),
-		createBlogEntryWithTimeNow("Desert", "A desert with mountains in the background.", "/img/landscape_desert_1280x606.jpg", 7),
-		createBlogEntryWithTimeNow("Houses", "Colorful one floor houses on a street.", "/img/landscape_houses_1280x858.jpg", 8),
-		createBlogEntryWithTimeNow("Blue sea", "Blue sea surrounding a cave.", "/img/landscape_sea_1280_853.jpg", 9),
-		createBlogEntryWithTimeNow("Sailing ship", "A ship sailing the sea at sunset.", "/img/landscape_ship_1280_853.jpg", 10))
+		createBlogEntryWithTimeNow("Green landscape", SHORT_DESCRIPTION, "/img/landscape_hills_1280x853.jpg", 1),
+		createBlogEntryWithTimeNow("Mountains", MEDIUM_DESCRIPTION, "", 2),
+		createBlogEntryWithTimeNow("Road leading to a lake", LONG_DESCRIPTION, "/img/landscape_lake_1280x853.jpg", 3),
+		createBlogEntryWithTimeNow("Forested hills", SHORT_DESCRIPTION, "/img/landscape_trees_1280x823.jpg", 4),
+		createBlogEntryWithTimeNow("Scattered houses", SHORT_DESCRIPTION, "/img/landscape_village_1280x720.jpg", 5),
+		createBlogEntryWithTimeNow("Canyon", MEDIUM_DESCRIPTION, "/img/landscape_canyon_1280x853.jpg", 6),
+		createBlogEntryWithTimeNow("Desert", LONG_DESCRIPTION, "/img/landscape_desert_1280x606.jpg", 7),
+		createBlogEntryWithTimeNow("Houses", MEDIUM_DESCRIPTION, "/img/landscape_houses_1280x858.jpg", 8),
+		createBlogEntryWithTimeNow("Blue sea", LONG_DESCRIPTION, "/img/landscape_sea_1280_853.jpg", 9),
+		createBlogEntryWithTimeNow("Sailing ship", SHORT_DESCRIPTION, "/img/landscape_ship_1280_853.jpg", 10))
 
 	registerHandler(SAMPLE_AMPS_FOLDER, "live_blog")
 	registerHandler(SAMPLE_AMPS_FOLDER, "live_blog/preview")
@@ -98,7 +101,7 @@ func createBlogEntry(heading string, text string, imagePath string, time time.Ti
 	return BlogItem{Text: text,
 		Image:             imagePath,
 		Timestamp:         time.Format("20060102150405"),
-		Date:              time.Format("15:04:05"),
+		Date:              time.Format("Mon, 02 Jan 2006 15:04:05 MST"),
 		ID:                "post" + strconv.Itoa(id),
 		Heading:           heading,
 		MetadataTimestamp: time.Format("2006-01-02T15:04:05.999999-07:00")}

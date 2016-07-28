@@ -127,13 +127,16 @@ This is a sample template for implementing live blogs in AMP.
             color: black;
             padding-top: 0;
        }
-       .blog .title {
+       .blog .title-image {
           color: white;
           position: relative;
           top: -48px;
           margin: 0;
           height: 0;
           padding-bottom: 16px;
+       }
+       .blog .title {
+          color: black;
        }
        #live-list-update-button {
         position: fixed;
@@ -174,10 +177,14 @@ This is a sample template for implementing live blogs in AMP.
       {{range .BlogItems}}
           <div id="{{.ID}}" data-sort-time="{{.Timestamp}}">
             <div class="card blog">
-              <amp-img src="{{.Image}}"
-                  layout="responsive" width="1280" height="853">
-              </amp-img>
-              <h4 class="title">{{.Heading}}</h4>
+              {{if ne .Image ""}}
+                <amp-img src="{{.Image}}"
+                    layout="responsive" width="1280" height="853">
+                </amp-img>
+                <h4 class="title-image">{{.Heading}}</h4>
+              {{else}}
+                <h4 class="title">{{.Heading}}</h4>
+              {{end}}
               <p class="date">{{.Date}}</p>
               <p class="text">{{.Text}}</p>             
               <p class="social-share">
