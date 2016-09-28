@@ -1,0 +1,89 @@
+<!---{
+    "experiment": true,
+    "component": "amp-form",
+    "default": "preview",
+    "preview": "default"
+  }--->
+<!--
+#### Introduction
+
+This sample showcases how to build a quiz in AMP HTML. Explore how to use the `form` amp components to create a quiz.
+-->
+<!doctype html>
+<html ⚡>
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="<%host%>/sample_amps/Quiz/">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <!--
+    Additionally used AMP components must be imported in the header.
+    -->
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <!-- #### Styles -->
+    <!--
+      Provide the custom styles needed for the page.
+    -->
+    <style amp-custom>
+    input[type=submit] {
+      border: 2px;
+      display: block;
+      cursor:pointer;
+      margin-right: 16px;
+    }
+    input[type=submit]#milan{
+      background: url("/img/milan_240x160.jpg");
+      height: 159px;
+      width: 240px;
+    }
+    input[type=submit]#rome{
+      background: url("/img/rome_240x159.jpg");
+      height: 159px;
+      width: 240px;
+    }
+    input[type=submit]#venice{
+      background: url("/img/venice_240x158.jpg");
+      height: 158px;
+      width: 240px;
+    }
+    input[type=submit]#florence{
+      background: url("/img/florence_240x159.jpg");
+      height: 159px;
+      width: 240px;
+    }
+   
+    </style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    </head>     
+    <body>
+          <!-- #### Quiz -->
+            <!--[form](https://github.com/ampproject/amphtml/blob/master/extensions/amp-form/amp-form.md) allows usage of form and input tags. -->
+        <h4>Geo quiz: Which is the capital of Italy?</h4>  
+        <form method="post" action-xhr="<%host%>/samples_templates/quiz/"  target="_top">  
+
+              <div>
+                <input type="submit" id="rome" name="Rome" value=""> Rome
+                <div class="caption">Photo by <a href="https://flic.kr/p/e5cCCo">jivieras</a> / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></div>
+              </div>
+              <div>
+                <input type="submit" id="venice" name="Venice" value=""> Venice
+                <div class="caption">Photo by <a href="https://flic.kr/p/91iqUo">anieto2k</a> / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></div>
+              </div>
+              <div>
+                <input type="submit" id="milan" name="Milan" value=""> Milan
+                <div class="caption">Photo by <a href="https://flic.kr/p/8PNTff">jiuguangw</a> / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></div>
+              </div>
+              <div>
+                <input type="submit" id="florence" name="Florence" value=""> Florence
+                <div class="caption">Photo by <a href="https://flic.kr/p/iqNd6p">myoplayer</a> / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></div>  
+              </div>            
+
+            <div submit-success>
+
+            </div>
+            <div submit-error>
+            </div>
+          </form>
+</body>
+</html>
