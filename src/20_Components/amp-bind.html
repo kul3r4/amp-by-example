@@ -33,6 +33,8 @@
   -->
   <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
   <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+  <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.1.js"></script>
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <style amp-custom>
     .redBackground {
@@ -122,6 +124,18 @@ Various AMP components support binding attribute values with amp-bind. For examp
     The src URL for videos embedded with `amp-video` can be changed. At the moment, among all the AMP video components, only amp-video supports amp-bind.
   -->
   <amp-video src="/video/dog-video.mp4" [src]="allAnimals[currentAnimal].videoUrl" width="300" height="200" autoplay controls="true"></amp-video>
+
+  <!--
+    ---
+  -->
+  <p> Number of likes: <span [text]="(likesNumber+1)">1</span></p>
+  <!--
+    ---
+  -->
+  <form method="POST" action-xhr="<%host%>/components/amp-form/submit-form-xhr"  target="_top"
+      on="submit-error:AMP.setState(likesNumber = likesNumber - 1)">
+    <input type="submit" value="LIKE">
+  </form>
 
   <!-- #### Triggering updates -->
   <!--
